@@ -1,0 +1,1 @@
+Star is a react frontend for the project {insert name here}
