@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React, {useEffect, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Theme as DefaultTheme} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
@@ -57,31 +56,29 @@ const firebaseConfig = {
     measurementId: "G-GM7884RRVX"
 };
 
-
 function App() {
-    const [loading] = useState(false);
+    const [loggedIn] = useState(false);
     const classes = useStyles();
-    firebase.initializeApp(firebaseConfig);
-    // Initialize the FirebaseUI Widget using Firebase.
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
-    ui.start('#firebaseui-auth-container', {
-        signInOptions: [
-            firebase.auth.EmailAuthProvider.PROVIDER_ID
-        ],
-    });
-
-
+    useEffect(() => {
+            firebase.initializeApp(firebaseConfig);
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            ui.start('#firebaseui-auth-container', {
+                signInOptions: [
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID
+                ],
+            });
+    },[]);
 
     return (
         <div className={classes.root}>
             {
-                loading &&
+                !loggedIn &&
                 <div  className={classes.progressBar}>
-                <CircularProgress/>
+                <div id={'firebaseui-auth-container'}/>
                 </div>
             }
             {
-              !loading && <div className={classes.appBar}>
+              loggedIn && <div className={classes.appBar}>
                 <AppBar position="static">
                   <Toolbar className={classes.toolbar}>
                     <div className={classes.toolbarLeft}>
