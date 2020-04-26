@@ -5,45 +5,46 @@ import {Theme as DefaultTheme} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 // Todo: setup to run to laod
 const useStyles = makeStyles((theme: DefaultTheme) => {
     return (
         {
             root: {
-                width: (props: any) => `${props.appWidth}px`,
-                height: (props: any) => `${props.appHeight}px`,
+                width: '100%',
+                height: '100%',
                 display: 'flex',
-                position: 'fixed'
             },
             progressBar: {
               display: 'flex',
-              width:'99%',
+              width:'100%',
               height: '100%',
               alignItems: 'center',
               justifyContent: 'center',
             },
           appBar: {
-              width: '99%',
+              width: '100%',
               height: '100%',
-          }
+          },
+          toolbar: {
+            display: 'flex'
+          },
+          toolbarLeft:{
+            display: 'flex',
+            flexGrow:2,
+            justifyContent: 'flex-start'
+          },
+          toolbarRight:{
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'flex-end'
+          },
         }
     )
 });
 
 function App() {
     const [loading] = useState(false);
-    const [appWidth, setAppWidth] = useState(window.innerWidth)
-    const [appHeight, setAppHeight] = useState(window.innerHeight)
-    const classes = useStyles({appWidth: appWidth, appHeight: appHeight});
-
-
-    window.addEventListener("resize", () => {
-        // Todo: Add a debouncer
-        setAppHeight(window.innerHeight)
-        setAppWidth(window.innerWidth)
-    })
-
+    const classes = useStyles();
 
     return (
         <div className={classes.root}>
@@ -56,11 +57,13 @@ function App() {
             {
               !loading && <div className={classes.appBar}>
                 <AppBar position="static">
-                  <Toolbar>
-                    <Button>
-                      Contacts
-                    </Button>
-                    <Button color="inherit">Logout</Button>
+                  <Toolbar className={classes.toolbar}>
+                    <div className={classes.toolbarLeft}>
+                      <Button>Contacts</Button>
+                    </div>
+                    <div className={classes.toolbarRight}>
+                      <Button color="inherit">Logout</Button>
+                    </div>
                   </Toolbar>
                 </AppBar>
 
