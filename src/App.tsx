@@ -5,6 +5,10 @@ import {Theme as DefaultTheme} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import * as firebaseui from "firebaseui";
+
 // Todo: setup to run to laod
 const useStyles = makeStyles((theme: DefaultTheme) => {
     return (
@@ -42,9 +46,31 @@ const useStyles = makeStyles((theme: DefaultTheme) => {
     )
 });
 
+const firebaseConfig = {
+    apiKey: "AIzaSyA0Eb-bvtXm2VV5ZK9oPQ7dy5DhPCHBwMw",
+    authDomain: "bikinibottom-8ed47.firebaseapp.com",
+    databaseURL: "https://bikinibottom-8ed47.firebaseio.com",
+    projectId: "bikinibottom-8ed47",
+    storageBucket: "bikinibottom-8ed47.appspot.com",
+    messagingSenderId: "1023497120026",
+    appId: "1:1023497120026:web:9a5d44a5d5e6faf13724a3",
+    measurementId: "G-GM7884RRVX"
+};
+
+
 function App() {
     const [loading] = useState(false);
     const classes = useStyles();
+    firebase.initializeApp(firebaseConfig);
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start('#firebaseui-auth-container', {
+        signInOptions: [
+            firebase.auth.EmailAuthProvider.PROVIDER_ID
+        ],
+    });
+
+
 
     return (
         <div className={classes.root}>
