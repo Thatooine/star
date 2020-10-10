@@ -6,9 +6,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import * as firebase from "firebase/app";
 import "firebase/auth";
-import * as firebaseui from "firebaseui";
 
-// Todo: setup to run to laod
+
 const useStyles = makeStyles((theme: DefaultTheme) => {
     return (
         {
@@ -45,6 +44,7 @@ const useStyles = makeStyles((theme: DefaultTheme) => {
     )
 });
 
+// Todo this should come from the config or hidden in a way
 const firebaseConfig = {
     apiKey: "AIzaSyA0Eb-bvtXm2VV5ZK9oPQ7dy5DhPCHBwMw",
     authDomain: "bikinibottom-8ed47.firebaseapp.com",
@@ -57,18 +57,10 @@ const firebaseConfig = {
 };
 
 function App() {
-    const [loggedIn] = useState(false);
+    const [loggedIn] = useState(true);
     const classes = useStyles();
-    useEffect(() => {
-            firebase.initializeApp(firebaseConfig);
-            var ui = new firebaseui.auth.AuthUI(firebase.auth());
-            ui.start('#firebaseui-auth-container', {
-                signInOptions: [
-                    firebase.auth.EmailAuthProvider.PROVIDER_ID
-                ],
-            });
-    },[]);
-
+    const fb = firebase.initializeApp(firebaseConfig);
+    // fb.auth().signInWithEmailAndPassword().catch()
     return (
         <div className={classes.root}>
             {
@@ -82,7 +74,7 @@ function App() {
                 <AppBar position="static">
                   <Toolbar className={classes.toolbar}>
                     <div className={classes.toolbarLeft}>
-                      <Button>Contacts</Button>
+                      <Button>Telegraph</Button>
                     </div>
                     <div className={classes.toolbarRight}>
                       <Button color="inherit">Logout</Button>
