@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {AppRouter} from "./routes/AppRouter";
 import {UserContext} from "./context/UserContext";
+import {FirebaseContext} from "./context/FirebaseContext"
 
 ReactDOM.render(
     <React.StrictMode>
         <UserContext>
-            <AppRouter/>
+            <FirebaseContext>
+                <AppRouter/>
+            </FirebaseContext>
         </UserContext>
     </React.StrictMode>,
     document.getElementById('root')
