@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Theme as DefaultTheme} from "@material-ui/core/styles/createMuiTheme";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SignInSide from "../Pages/SignIn/SignIn";
-import Home from "../Pages/Home/Home";
-import SignUp from "../Pages/SignUp/SignUp";
+import SignInSide from "../pages/SignIn/SignIn";
+import Home from "../pages/Home/Home";
+import SignUp from "../pages/SignUp/SignUp";
 
 const useStyles = makeStyles((theme: DefaultTheme) => ({
     root:{}
@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme: DefaultTheme) => ({
 
 export const AppRouter = () => {
     const classes = useStyles();
-
     const [loggedIn] = useState(false);
     return (
         <div className={classes.root}>
