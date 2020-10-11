@@ -9,7 +9,7 @@ export interface LoginResponse{
 }
 
 // Todo url to change based on the environment
-const AuthenticationServices = {
+export const AuthenticationServices = {
     Login: async (request: LoginRequest): Promise<LoginResponse> =>  {
        const response = await SendRequest(
             request,

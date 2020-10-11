@@ -1,5 +1,6 @@
 import React, {useContext, useState} from "react";
 import firebase from "firebase";
+import {AuthenticationServices} from "../api/authentication";
 
 export interface FirebaseContext {
     UserDetails?: string
@@ -27,14 +28,25 @@ const Context = React.createContext<FirebaseContext>({
 export const FirebaseContext = (props: any) => {
     const [firebaseApp] = useState<any>(firebase.apps.length === 0 ? firebase.initializeApp(firebaseConfig): firebase.app())
     const SignInUser = async (email: string, password: string) => {
+        let token = ""
         try {
             await SignOutUser()
             const firebaseSignInResponse = await firebaseApp.auth().signInWithEmailAndPassword(email, password)
-            const token = await firebaseSignInResponse.user?.getIdToken()
-            // @ts-ignore
-                console.log('sign in --------> credential ', token)
-
+            token = await firebaseSignInResponse.user?.getIdToken()
         } catch (e) {
+            console.log('error signing into firebase')
+            throw e
+        }
+
+        try {
+            const response =  await AuthenticationServices.Login(
+                {
+                    accessToken: token
+                }
+            )
+            console.log("response --->", response)
+        } catch (e) {
+            console.log("unable to login")
             throw e
         }
     }
