@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Theme as DefaultTheme} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import * as firebase from "firebase/app";
 import "firebase/auth";
 
 
@@ -45,32 +44,22 @@ const useStyles = makeStyles((theme: DefaultTheme) => {
 });
 
 // Todo this should come from the config or hidden in a way
-const firebaseConfig = {
-    apiKey: "AIzaSyA0Eb-bvtXm2VV5ZK9oPQ7dy5DhPCHBwMw",
-    authDomain: "bikinibottom-8ed47.firebaseapp.com",
-    databaseURL: "https://bikinibottom-8ed47.firebaseio.com",
-    projectId: "bikinibottom-8ed47",
-    storageBucket: "bikinibottom-8ed47.appspot.com",
-    messagingSenderId: "1023497120026",
-    appId: "1:1023497120026:web:9a5d44a5d5e6faf13724a3",
-    measurementId: "G-GM7884RRVX"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyA0Eb-bvtXm2VV5ZK9oPQ7dy5DhPCHBwMw",
+//     authDomain: "bikinibottom-8ed47.firebaseapp.com",
+//     databaseURL: "https://bikinibottom-8ed47.firebaseio.com",
+//     projectId: "bikinibottom-8ed47",
+//     storageBucket: "bikinibottom-8ed47.appspot.com",
+//     messagingSenderId: "1023497120026",
+//     appId: "1:1023497120026:web:9a5d44a5d5e6faf13724a3",
+//     measurementId: "G-GM7884RRVX"
+// };
 
-function App() {
-    const [loggedIn] = useState(true);
+function Home() {
     const classes = useStyles();
-    const fb = firebase.initializeApp(firebaseConfig);
-    // fb.auth().signInWithEmailAndPassword().catch()
     return (
         <div className={classes.root}>
-            {
-                !loggedIn &&
-                <div  className={classes.progressBar}>
-                <div id={'firebaseui-auth-container'}/>
-                </div>
-            }
-            {
-              loggedIn && <div className={classes.appBar}>
+            <div className={classes.appBar}>
                 <AppBar position="static">
                   <Toolbar className={classes.toolbar}>
                     <div className={classes.toolbarLeft}>
@@ -83,9 +72,8 @@ function App() {
                 </AppBar>
 
               </div>
-            }
         </div>
     );
 }
 
-export default App;
+export default Home;
