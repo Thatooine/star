@@ -25,7 +25,8 @@ export const SendRequest = async (request: any, url: string, method: string): Pr
         throw e
     }
     try {
-        return response.result
+        const parsedResponse = JSON.parse(response)
+        return parsedResponse.result
     }catch (e) {
         console.error('invalid response object', e)
         throw e

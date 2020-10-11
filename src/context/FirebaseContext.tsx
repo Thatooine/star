@@ -33,6 +33,7 @@ export const FirebaseContext = (props: any) => {
             await SignOutUser()
             const firebaseSignInResponse = await firebaseApp.auth().signInWithEmailAndPassword(email, password)
             token = await firebaseSignInResponse.user?.getIdToken()
+            console.log('token info ------------->', token)
         } catch (e) {
             console.log('error signing into firebase')
             throw e
