@@ -13,8 +13,8 @@ export const AuthenticationServices = {
     Login: async (request: LoginRequest): Promise<LoginResponse> =>  {
        const response = await SendRequest(
             request,
-            "localhost/login",
-            'login'
+            "http://localhost:5000/login",
+            'login',
         )
         return response as LoginResponse
     },

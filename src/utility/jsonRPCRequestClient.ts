@@ -10,25 +10,31 @@ export const SendRequest = async (request: any, url: string, method: string): Pr
         method: method,
         params: [request]
     }
-    let response: any
+
+    let response
     try {
         response = await fetch(
             url,
             {
                 method: methodType,
                 headers: headers,
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify(requestBody),
+                mode: 'no-cors'
             }
         )
+        console.log('response --->', response)
+        console.log('response text --->', await response.text())
+        console.log('response json --->', await response.json())
     } catch (e) {
         console.error('error sending request:', e)
         throw e
     }
     try {
-        const parsedResponse = JSON.parse(response)
-        return parsedResponse.result
-    }catch (e) {
-        console.error('invalid response object', e)
+        let jsonResponse = await response.json()
+        console.log(jsonResponse)
+        return jsonResponse.result
+    } catch (e) {
+        console.error('invalid response object:', e)
         throw e
     }
 }
