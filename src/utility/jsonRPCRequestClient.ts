@@ -22,9 +22,6 @@ export const SendRequest = async (request: any, url: string, method: string): Pr
                 mode: 'no-cors'
             }
         )
-        console.log('response --->', response)
-        console.log('response text --->', await response.text())
-        console.log('response json --->', await response.json())
     } catch (e) {
         console.error('error sending request:', e)
         throw e
