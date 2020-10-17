@@ -19,7 +19,7 @@ export const SendRequest = async (request: any, url: string, method: string): Pr
                 method: methodType,
                 headers: headers,
                 body: JSON.stringify(requestBody),
-                mode: 'no-cors'
+                mode: 'cors'
             }
         )
     } catch (e) {
@@ -28,10 +28,9 @@ export const SendRequest = async (request: any, url: string, method: string): Pr
     }
     try {
         let jsonResponse = await response.json()
-        console.log(jsonResponse)
         return jsonResponse.result
     } catch (e) {
-        console.error('invalid response object:', e)
+        console.error('error parsing response to a json object:', e)
         throw e
     }
 }
