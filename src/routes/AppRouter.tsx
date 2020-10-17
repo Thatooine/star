@@ -4,7 +4,7 @@ import {Theme as DefaultTheme} from "@material-ui/core/styles/createMuiTheme";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import SignInSide from "../pages/signIn/signIn";
 import Home from "../pages/home/Home";
-import SignUp from "../pages/signUp/SignUp";
+import SignUp from "../pages/signUp/signUp";
 import {useUserContext} from "../context/userContext";
 
 const useStyles = makeStyles((theme: DefaultTheme) => ({

@@ -14,6 +14,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import {useFirebaseContext} from "../../context/firebaseContext";
 import {AuthenticationServices} from "../../api/services/authentication";
 import {useSnackbar} from 'notistack';
+import {CircularProgress} from "@material-ui/core";
+import {useUserContext} from "../../context/userContext";
 
 function Copyright() {
     return (
@@ -53,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    spinner: {
+        marginLeft: '20px',
+        color: 'white'
+    }
 }));
 
 export default function SignInSide() {
@@ -62,13 +68,13 @@ export default function SignInSide() {
     const [password, setPassword] = useState<string>("")
     const {SignInUser} = useFirebaseContext()
     const {enqueueSnackbar} = useSnackbar()
+    const {setUserLoggedIn} = useUserContext()
 
     const handleUserSignIn = async () => {
         setLoading(true)
         // sign in to firebase
         let token = ''
         try {
-            // Todo: investigate a better way to handle this
             if (SignInUser) {
                 token = await SignInUser(email, password)
             }
@@ -88,6 +94,11 @@ export default function SignInSide() {
             return
         }
         setLoading(false)
+        setPassword("")
+        setEmail("")
+        if (setUserLoggedIn) {
+            setUserLoggedIn(true)
+        }
     }
 
 
@@ -130,10 +141,6 @@ export default function SignInSide() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="Remember me"
-                    />
                     <Button
                         type="submit"
                         fullWidth
@@ -144,6 +151,12 @@ export default function SignInSide() {
                         onClick={handleUserSignIn}
                     >
                         Sign In
+                        {
+                            loading &&   <CircularProgress
+                                className={classes.spinner}
+                                size={20}
+                            />
+                        }
                     </Button>
                     <Grid container>
                         <Grid item xs>

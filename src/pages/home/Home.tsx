@@ -5,6 +5,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import "firebase/auth";
+import {useFirebaseContext} from "../../context/firebaseContext";
+import {useUserContext} from "../../context/userContext";
 
 
 const useStyles = makeStyles((theme: DefaultTheme) => {
@@ -46,6 +48,9 @@ const useStyles = makeStyles((theme: DefaultTheme) => {
 
 function Home() {
     const classes = useStyles();
+    const {SignOutUser} = useFirebaseContext()
+    const {setUserLoggedIn} = useUserContext()
+
     return (
         <div className={classes.root}>
             <div className={classes.appBar}>
@@ -55,7 +60,16 @@ function Home() {
                       <Button>Telegraph</Button>
                     </div>
                     <div className={classes.toolbarRight}>
-                      <Button color="inherit">Logout</Button>
+                      <Button color="inherit"
+                      onClick={async () => {
+                          if (SignOutUser) {
+                              await SignOutUser()
+                          }
+                          if (setUserLoggedIn) {
+                              setUserLoggedIn(false)
+                          }
+                      }}
+                      >Logout</Button>
                     </div>
                   </Toolbar>
                 </AppBar>

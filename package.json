@@ -16,6 +16,7 @@
     "@types/react-router-dom": "^5.1.6",
     "firebase": "^7.14.2",
     "firebaseui": "^4.5.0",
+    "history": "^5.0.0",
     "moment": "^2.29.1",
     "notistack": "^1.0.1",
     "react": "^16.13.1",

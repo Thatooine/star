@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 
 export interface UserContext {
     loggedIn?: boolean,
-    setUserLoggedIn?: () => void
+    setUserLoggedIn?: (loggedIn: boolean) => void
 }
 
 const Context = React.createContext<UserContext>({});
@@ -13,7 +13,7 @@ export const UserContext = (props: any) => {
         <Context.Provider
             value={{
                 loggedIn: loggedIn,
-                setUserLoggedIn: () => (setIsLoggedIn(true))
+                setUserLoggedIn: (loggedIn) => (setIsLoggedIn(loggedIn))
             }}
         >
             {props.children}

@@ -8,12 +8,14 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {User} from "../../api/entities/user";
 import {useFirebaseContext} from "../../context/firebaseContext";
 import {useSnackbar} from "notistack";
 import {AuthenticationServices} from "../../api/services/authentication";
+import {CircularProgress} from "@material-ui/core";
+import {useHistory} from 'react-router'
 
 function Copyright() {
     return (
@@ -46,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    spinner: {
+        marginLeft: '20px',
+        color: 'white'
+    }
 }));
 
 export default function SignUp() {
@@ -55,6 +61,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState<boolean>(false)
     const {SignUpUser} = useFirebaseContext()
     const {enqueueSnackbar} = useSnackbar()
+    const history = useHistory()
 
     const handleSignUp = async () => {
         setLoading(true)
@@ -77,15 +84,19 @@ export default function SignUp() {
             setLoading(false)
             return
         }
+        // clear fields
+        setUser(new User())
+        enqueueSnackbar("user signed up", {variant: "success"})
         setLoading(false)
+        history.push("/sign-in")
     }
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
@@ -104,7 +115,9 @@ export default function SignUp() {
                                 autoFocus
                                 value={user.firstName}
                                 disabled={loading}
-                                onChange={(e) => {setUser({...user,firstName:e.target.value})}}
+                                onChange={(e) => {
+                                    setUser({...user, firstName: e.target.value})
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -117,7 +130,9 @@ export default function SignUp() {
                                 name="lastName"
                                 value={user.lastName}
                                 disabled={loading}
-                                onChange={(e) => {setUser({...user,lastName:e.target.value})}}
+                                onChange={(e) => {
+                                    setUser({...user, lastName: e.target.value})
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -130,7 +145,9 @@ export default function SignUp() {
                                 name="email"
                                 value={user.emailAddress}
                                 disabled={loading}
-                                onChange={(e) => {setUser({...user,emailAddress:e.target.value})}}
+                                onChange={(e) => {
+                                    setUser({...user, emailAddress: e.target.value})
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -144,7 +161,9 @@ export default function SignUp() {
                                 id="password"
                                 value={password}
                                 disabled={loading}
-                                onChange={(e) => {setPassword(e.target.value)}}
+                                onChange={(e) => {
+                                    setPassword(e.target.value)
+                                }}
                             />
                         </Grid>
                     </Grid>
@@ -158,6 +177,12 @@ export default function SignUp() {
                         onClick={handleSignUp}
                     >
                         Sign Up
+                        {
+                            loading && <CircularProgress
+                                className={classes.spinner}
+                                size={20}
+                            />
+                        }
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
@@ -169,7 +194,7 @@ export default function SignUp() {
                 </form>
             </div>
             <Box mt={5}>
-                <Copyright />
+                <Copyright/>
             </Box>
         </Container>
     );
