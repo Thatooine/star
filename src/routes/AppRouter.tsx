@@ -2,10 +2,10 @@ import React from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Theme as DefaultTheme} from "@material-ui/core/styles/createMuiTheme";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SignInSide from "../pages/SignIn/SignIn";
-import Home from "../pages/Home/Home";
-import SignUp from "../pages/SignUp/SignUp";
-import {useUserContext} from "../context/UserContext";
+import SignInSide from "../pages/signIn/signIn";
+import Home from "../pages/home/Home";
+import SignUp from "../pages/signUp/SignUp";
+import {useUserContext} from "../context/userContext";
 
 const useStyles = makeStyles((theme: DefaultTheme) => ({
     root:{}

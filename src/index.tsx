@@ -2,17 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import {AppRouter} from "./routes/AppRouter";
-import {UserContext} from "./context/UserContext";
-import {FirebaseContext} from "./context/FirebaseContext"
+import {UserContext} from "./context/userContext";
+import {FirebaseContext} from "./context/firebaseContext"
+import {SnackbarProvider} from 'notistack';
 
 ReactDOM.render(
-    <React.StrictMode>
         <UserContext>
             <FirebaseContext>
-                <AppRouter/>
+                <SnackbarProvider>
+                    <AppRouter/>
+                </SnackbarProvider>
             </FirebaseContext>
-        </UserContext>
-    </React.StrictMode>,
+        </UserContext>,
     document.getElementById('root')
 );
 

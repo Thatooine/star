@@ -1,11 +1,10 @@
 import React, {useContext, useState} from "react";
 import firebase from "firebase";
-import {AuthenticationServices} from "../api/authentication";
 
 export interface FirebaseContext {
     UserDetails?: string
-    SignInUser: (email: string, password: string) => void,
-    SignUpUser?: (firstName: string, lastName: string, email: string, password: string) => void
+    SignInUser?: (email: string, password: string) => Promise<string>,
+    SignUpUser?: (email: string, password: string) => Promise<void>
     SignOutUser?: () => void
 }
 
@@ -21,13 +20,11 @@ const firebaseConfig = {
     measurementId: "G-GM7884RRVX"
 };
 
-const Context = React.createContext<FirebaseContext>({
-    SignInUser: () => {console.log("called the dud service")}
-})
+const Context = React.createContext<FirebaseContext>({})
 
 export const FirebaseContext = (props: any) => {
-    const [firebaseApp] = useState<any>(firebase.apps.length === 0 ? firebase.initializeApp(firebaseConfig): firebase.app())
-    const SignInUser = async (email: string, password: string) => {
+    const [firebaseApp] = useState<any>(firebase.apps.length === 0 ? firebase.initializeApp(firebaseConfig) : firebase.app())
+    const SignInUser = async (email: string, password: string): Promise<string> => {
         let token = ""
         try {
             await SignOutUser()
@@ -37,35 +34,23 @@ export const FirebaseContext = (props: any) => {
             console.log('error signing into firebase')
             throw e
         }
-
-        try {
-            const response =  await AuthenticationServices.Login(
-                {
-                    accessToken: token
-                }
-            )
-            console.log("response --->", response)
-        } catch (e) {
-            console.log("unable to login")
-            throw e
-        }
+        return token
     }
 
     const SignOutUser = async () => {
         try {
             await firebaseApp.auth().signOut()
         } catch (e) {
-            console.log('signed out ----------->')
+            console.error('unable to sign out user: ', e)
             throw e
         }
     }
 
     const SignUpUser = async (email: string, password: string) => {
         try {
-            const firebaseSingUpUserResponse = await firebaseApp.auth().createUserWithEmailAndPassword(email, password)
-            // @ts-ignore
-            console.log('sign in --------> credential ', firebaseSingUpUserResponse.credential.toJSON)
+            await firebaseApp.auth().createUserWithEmailAndPassword(email, password)
         } catch (e) {
+            console.error('unable to sign up user on firebase:', e)
             throw e
         }
     }

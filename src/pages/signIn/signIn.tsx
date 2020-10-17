@@ -11,7 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import {useFirebaseContext} from "../../context/FirebaseContext";
+import {useFirebaseContext} from "../../context/firebaseContext";
+import {AuthenticationServices} from "../../api/services/authentication";
+import {useSnackbar} from 'notistack';
 
 function Copyright() {
     return (
@@ -59,13 +61,31 @@ export default function SignInSide() {
     const [loading, setLoading] = useState<boolean>(false)
     const [password, setPassword] = useState<string>("")
     const {SignInUser} = useFirebaseContext()
+    const {enqueueSnackbar} = useSnackbar()
 
-    const handleUserSignIn = () => {
+    const handleUserSignIn = async () => {
         setLoading(true)
+        // sign in to firebase
+        let token = ''
         try {
-            SignInUser(email, password)
-        } catch (e){
-            console.log('unable to sign in user:', e)
+            // Todo: investigate a better way to handle this
+            if (SignInUser) {
+                token = await SignInUser(email, password)
+            }
+        } catch (e) {
+            console.error('unable to sign in user into firebase', e)
+            enqueueSnackbar("error signing in", {variant: "error"})
+            setLoading(false)
+            return
+        }
+        // login to patrick
+        try {
+            await AuthenticationServices.Login({accessToken: token})
+        } catch (e) {
+            console.error("unable to login")
+            enqueueSnackbar("error logging in", {variant: "error"})
+            setLoading(false)
+            return
         }
         setLoading(false)
     }
@@ -132,7 +152,7 @@ export default function SignInSide() {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/sign-up" variant="body2">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
