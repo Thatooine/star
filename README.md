@@ -1,1 +1,1 @@
-Star is a react frontend for the project {insert name here}
+Star is a react frontend for the project NFT marketplace build on stellar
